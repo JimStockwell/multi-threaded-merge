@@ -1,0 +1,5 @@
+*.out
+*.o
+*.json
+scratch.md
+.DS_Store
