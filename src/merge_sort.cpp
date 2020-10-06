@@ -3,6 +3,8 @@
 // (see http://opensource.org/licenses/MIT for details)
 
 #include <string.h>
+#include <future>
+#include <cstdlib>
 using namespace std;
 
 /* result is where the merged 'a' and 'b' go.
@@ -47,17 +49,30 @@ static void merge(int *result, int len, int *a, int *b)
 
 int *merge_sort(int *data, size_t len)
 {
-    if (len < 2) return (data);
+    if (len < 2)
+        return (data);
 
-    int a[len / 2];
-    int b[len - len / 2];
+    int *a = (int *)malloc((len / 2) * sizeof(int));
+    int *b = (int *)malloc((len - len / 2) * sizeof(int));
 
     memcpy(a, data, len / 2 * sizeof(int));
     memcpy(b, data + len / 2, (len - len / 2) * sizeof(int));
 
-    merge_sort(a, len / 2);
-    merge_sort(b, len - len / 2);
+    if (len < 500)
+    {
+        merge_sort(a, len / 2);
+        merge_sort(b, len - len / 2);
+        merge(data, len, a, b);
+    }
+    else
+    {
+        auto future_a = async(std::launch::async, merge_sort, a, len / 2);
+        auto future_b = async(std::launch::async, merge_sort, b, len - len / 2);
+        merge(data, len, future_a.get(), future_b.get());
+    }
 
-    merge(data, len, a, b);
+    free(b);
+    free(a);
+
     return (data);
 }

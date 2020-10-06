@@ -10,11 +10,25 @@
 #define CATCH_CONFIG_MAIN
 #include "../lib/catch.hpp"
 
+#include <cstdlib>
+
 extern int *merge_sort(int *data, size_t len);
 
 int isEqual(int *data1, int *data2, size_t num)
 {
     return !memcmp(data1, data2, num * sizeof(int));
+}
+
+int isSorted(int *data, size_t num)
+{
+    if (num < 2)
+        return (1);
+    for (int i = 1; i < num; i++)
+    {
+        if (data[i - 1] > data[i])
+            return (0);
+    }
+    return (1);
 }
 
 TEST_CASE("length 0")
@@ -75,4 +89,17 @@ TEST_CASE("length 10 - merge and sort required")
     int len = 10;
 
     REQUIRE(isEqual(merge_sort(data, len), expected, len));
+}
+
+TEST_CASE("length big")
+{
+    int big = 10000;
+    int data[big];
+    
+    srand(0);
+    for (int i = 0; i < big; i++)
+        data[i] = rand();
+
+    REQUIRE(!isSorted(data, big));
+    REQUIRE(isSorted(merge_sort(data, big), big));
 }
