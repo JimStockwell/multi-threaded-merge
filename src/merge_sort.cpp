@@ -15,7 +15,7 @@ using namespace std;
  */
 static void merge(
     int *const result,
-    const int len,
+    const size_t len,
     const int *const a,
     const int *const b)
 {
