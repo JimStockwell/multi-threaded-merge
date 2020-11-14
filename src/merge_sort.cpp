@@ -70,8 +70,8 @@ int *merge_sort(int *const data, const size_t len)
     }
     else
     {
-        auto future_a = async(std::launch::async, merge_sort, a, len / 2);
-        auto future_b = async(std::launch::async, merge_sort, b, len - len / 2);
+        future<int *> future_a = async(std::launch::async, merge_sort, a, len / 2);
+        future<int *> future_b = async(std::launch::async, merge_sort, b, len - len / 2);
         merge(data, len, future_a.get(), future_b.get());
     }
 
