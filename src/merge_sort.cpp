@@ -13,10 +13,14 @@ using namespace std;
  * b is of length (len - len/2)
  * Note: a and b are not equal length when 'len' is odd.
  */
-static void merge(int *result, int len, int *a, int *b)
+static void merge(
+    int *const result,
+    const int len,
+    const int *const a,
+    const int *const b)
 {
-    int alen = len / 2;
-    int blen = len - len / 2;
+    const int alen = len / 2;
+    const int blen = len - len / 2;
 
     for (int ai = 0, bi = 0, ri = 0; ri < len;)
     {
@@ -47,13 +51,13 @@ static void merge(int *result, int len, int *a, int *b)
     }
 }
 
-int *merge_sort(int *data, size_t len)
+int *merge_sort(int *const data, const size_t len)
 {
     if (len < 2)
         return (data);
 
-    int *a = (int *)malloc((len / 2) * sizeof(int));
-    int *b = (int *)malloc((len - len / 2) * sizeof(int));
+    int * const a = (int *)malloc((len / 2) * sizeof(int));
+    int * const b = (int *)malloc((len - len / 2) * sizeof(int));
 
     memcpy(a, data, len / 2 * sizeof(int));
     memcpy(b, data + len / 2, (len - len / 2) * sizeof(int));
