@@ -2,7 +2,7 @@
 // This code is licensed under MIT license
 // (see http://opensource.org/licenses/MIT for details)
 
-#include <string.h>
+#include <string>
 #include <future>
 #include <cstdlib>
 using namespace std;
