@@ -57,7 +57,10 @@ int *merge_sort(int *const data, const size_t len)
         return (data);
 
     int * const a = (int *)malloc((len / 2) * sizeof(int));
+    if(a==NULL)exit(1);
+
     int * const b = (int *)malloc((len - len / 2) * sizeof(int));
+    if(b==NULL)exit(1);
 
     memcpy(a, data, len / 2 * sizeof(int));
     memcpy(b, data + len / 2, (len - len / 2) * sizeof(int));
@@ -70,8 +73,10 @@ int *merge_sort(int *const data, const size_t len)
     }
     else
     {
-        future<int *> future_a = async(std::launch::async, merge_sort, a, len / 2);
-        future<int *> future_b = async(std::launch::async, merge_sort, b, len - len / 2);
+        future<int *> future_a =
+            async(std::launch::async, merge_sort, a, len / 2);
+        future<int *> future_b =
+            async(std::launch::async, merge_sort, b, len - len / 2);
         merge(data, len, future_a.get(), future_b.get());
     }
 
